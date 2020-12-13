@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+    server:
+      container_name: shopping_cart
+      image: boot-app
+      restart: on-failure
+      ports: 
+        - 8071:8080
+      environment: 
+        WAIT_HOSTS: mysql:3306
+      depends_on: 
+        - db-service
+    db-service:
+      container_name: DB 
+      image: mysql
+      restart: on-failure
+      ports: 
+       - 6666:3306
+      environment: 
+        MYSQL_DATABASE: TRAIL
+        MYSQL_ROOT_PASSWORD: ok1234
+        MYSQL_ROOT_HOSTS: '%'
+      healthcheck:
+       test: "/usr/bin/mysql --user=root --password=ok1234 --excute \"SHOW DATABASES\""
+       interval: 5s
+       timeout: 18s
+       retries: 5
+     
+
